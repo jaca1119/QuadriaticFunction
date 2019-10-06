@@ -3,7 +3,7 @@
 #include <math.h>
 
 
-double kwadratowa(double a, double b, double c, double x)
+double quadraticFunction(double a, double b, double c, double x)
 {
 	return (a * x * x) + (b * x) + c;
 }
@@ -12,8 +12,8 @@ double kwadratowa(double a, double b, double c, double x)
 
 int main(int argc, char *argv[]) {
     FILE *result;
-	
-    result = fopen("result.txt","w");
+
+    result = fopen("results.txt","w");
     if (result == NULL)
     {
         printf("Error with opening file\n");
@@ -22,49 +22,53 @@ int main(int argc, char *argv[]) {
 
 	double a,b,c;
 
-	double zakres1, zakres2;
+	double range1, range2;
 	double length;
 
 	int n;
-	//pobieranie danych
-	printf("Enter a,b,c\n");
+	//Get data from user input
+	printf("Enter a, b, c, to quadratic function:\n");
 	printf("a: ");
 	scanf("%lf", &a);
 	printf("b: ");
 	scanf("%lf", &b);
 	printf("c: ");
 	scanf("%lf", &c);
-	printf("a = %lf\n", a);
+
 	printf("%.2lfx^2 + %.2lfx + %.2lf", a,b,c);
-	printf("\nPodaj range: ");
-	scanf("%lf", &zakres1);
-	scanf("%lf", &zakres2);
-	printf("Zakres: (%lf - %lf)", zakres1, zakres2);
-	printf("\Enter number of measurements:");
+
+	printf("\nEnter range (from - to): ");
+	printf("\nFrom: ");
+	scanf("%lf", &range1);
+	printf("To: ");
+	scanf("%lf", &range2);
+
+	printf("Range: (%.2lf - %.2lf)", range1, range2);
+
+	printf("\nEnter number of measurements:");
 	scanf("%d", &n);
 
-
-	//odległość pomiędzy zakresami
-	length = fabs(zakres1 - zakres2);
+	//range length (absolute value)
+	length = fabs(range1 - range2);
 	printf("Length =  %lf", length);
 
 	double i;
 	double y;
-	//Obliczanie odległości pomiędzy punktami
+
+	//distance between each measurement
 	double between = length/(n-1);
 	printf("\nBetween = %lf", between);
 
 	//Obliczanie kolejnych punktów
-	for (i = zakres1; i<= zakres2; i+=between)
+	//count each measurement
+	for (i = range1; i<= range2; i+=between)
 	{
-	//	x = x + (length/(n - 1)) * i;
-		y = kwadratowa(a, b, c, i);
+		y = quadraticFunction(a, b, c, i);
 		printf("\ny = %.2lf, x = %.2lf", y, i);
-		//wpisywanie do pliku
+
+		//writing to file
 		fprintf(result, "y = %lf, x = %lf\n", y, i);
 	}
-
-
 
     fclose(result);
 
